@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+chromadb
+sentence-transformers
+rank-bm25
+transformers
+peft
+accelerate
+bitsandbytes
+langchain-openai
+langgraph

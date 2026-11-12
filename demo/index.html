@@ -1,0 +1,888 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>V Telecom Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --red:#e60000;--red-deep:#b80000;--ink:#1c1b1b;--muted:#6b6663;--paper:#f7f5f2;
+      --line:#dedbd6;--soft:#ede9e4;--green:#10735f;--green-soft:#e4f1ed;--amber:#b06a00;--amber-soft:#fdf1de;
+      --mono:'DM Mono',ui-monospace,monospace;--sans:'Manrope',system-ui,sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+    .shell{max-width:1200px;margin:auto;padding:20px 40px 64px}
+    code,.mono{font-family:var(--mono)}
+
+    /* ---------- header ---------- */
+    header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);
+      padding-bottom:16px;gap:16px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:18px;letter-spacing:-.7px;white-space:nowrap}
+    .roundel{background:var(--red);width:31px;height:31px;border-radius:50%;display:grid;place-items:center;flex:none}
+    .roundel:after{content:'';width:15px;height:11px;border:3px solid white;border-radius:50%;border-top-color:transparent;transform:rotate(-42deg) translateY(-1px)}
+    .vname{display:flex;align-items:baseline;gap:3px;color:var(--red)}
+    .vname b{font-size:30px;font-weight:800;line-height:.8;letter-spacing:-2px}
+    .brand .tagline{color:var(--ink);font-size:15px}
+    .status{display:flex;align-items:center;gap:8px;font:12px var(--mono);color:var(--muted)}
+    .dot{width:8px;height:8px;border-radius:50%;background:#c9c4bf;flex:none}
+    .dot.up{background:#159d7c;box-shadow:0 0 0 4px var(--green-soft)}
+    .dot.down{background:var(--red);box-shadow:0 0 0 4px #fbe6e6}
+
+    /* ---------- intro ---------- */
+    main{padding-top:30px}
+    .intro{margin-bottom:26px}
+    .intro h1{margin:0;max-width:720px;font-weight:800;font-size:clamp(26px,3.6vw,44px);line-height:1.1;letter-spacing:-2px}
+
+    /* ---------- example questions ---------- */
+    .examples{margin:0 0 11px;border:1px solid var(--line);background:#fff;padding:11px 13px}
+    .exlab{display:block;margin:0 0 7px;font:11px var(--mono);color:var(--muted);letter-spacing:.04em}
+    .exlab .exhint{color:#a9a29c;letter-spacing:0}
+    .ex{display:block;margin:0 -9px;padding:6px 9px;font:13px/1.4 var(--sans);color:var(--ink);
+      cursor:pointer;border-left:3px solid transparent;user-select:text;-webkit-user-select:text}
+    .ex+.ex{margin-top:1px}
+    .ex:hover{background:var(--soft);border-left-color:var(--red)}
+    .ex:focus-visible{outline:2px solid var(--red);outline-offset:-2px;background:var(--soft)}
+
+    /* ---------- ask ---------- */
+    .ask{display:flex;gap:9px;margin-bottom:26px}
+    .ask input{flex:1;border:1px solid #bbb5af;padding:14px 15px;font:14px var(--sans);outline:none;background:#fff;min-width:0}
+    .ask input:focus{border-color:var(--red);box-shadow:0 0 0 3px #ffe5e5}
+
+    /* ---------- optional answer options ---------- */
+    .opts{margin:0 0 26px}
+    .optslab{display:block;margin:0 0 7px;font:11.5px var(--mono);color:var(--muted);letter-spacing:.04em}
+    .optslab .hint{color:#a9a29c;letter-spacing:0}
+    .opts textarea{display:block;width:100%;border:1px solid #bbb5af;padding:11px 13px;
+      font:12px/1.65 var(--mono);color:#3a3735;background:#fff;outline:none;
+      resize:vertical;min-height:64px;cursor:text}
+    .opts textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px #ffe5e5}
+    button.action{border:0;background:var(--red);color:#fff;padding:0 22px;font:700 13px var(--sans);cursor:pointer;white-space:nowrap}
+    button.action:hover{background:var(--red-deep)}
+    button.action[disabled]{background:#c9c4bf;cursor:not-allowed}
+
+    /* ---------- layout ---------- */
+    .grid{display:grid;grid-template-columns:minmax(330px,372px) minmax(0,1fr);gap:24px;align-items:start}
+    @media (max-width:1180px){.grid{grid-template-columns:minmax(0,1fr)}}
+
+    /* ---------- graph map ---------- */
+    .map{border:1px solid var(--line);background:#fbfaf9;position:sticky;top:16px}
+    @media (max-width:1180px){.map{position:static}}
+    .map-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:10px 12px;border-bottom:1px solid var(--line)}
+    .map-bar h2{margin:0;font:600 10.5px var(--mono);letter-spacing:.09em;color:var(--muted);text-transform:uppercase}
+    .map-bar span{font:10.5px var(--mono);color:var(--muted)}
+    .map svg{display:block;width:100%;height:auto;padding:6px 4px 2px}
+    .map .edge{fill:none;stroke:#c9c4bf;stroke-width:1.4}
+    .map .edge.on{stroke:var(--red);stroke-width:2}
+    .map .edge.live{stroke:var(--red);stroke-width:2;stroke-dasharray:5 5;animation:flow .7s linear infinite}
+    @keyframes flow{to{stroke-dashoffset:-20}}
+    .map .elabel{font:13px var(--mono);fill:#8d8783;text-anchor:middle;paint-order:stroke;stroke:#fbfaf9;stroke-width:4.5px;stroke-linejoin:round}
+    .map .elabel.on{fill:var(--red)}
+    .map .nd{cursor:pointer}
+    .map .nd .box{fill:#fff;stroke:#c9c4bf;stroke-width:1.4;transition:stroke .18s,fill .18s}
+    .map .nd .cap{font:13px var(--mono);fill:var(--muted);text-anchor:middle}
+    .map .nd .kind{font:10px var(--mono);fill:#b5aea8;text-anchor:middle;letter-spacing:.05em}
+    .map .nd .bolt{font:13px var(--sans);fill:var(--red);opacity:0}
+    .map .nd:hover .box,.map .nd.pinned .box{stroke:var(--ink)}
+    .map .nd:hover .cap{font-weight:700;fill:var(--ink)}
+    .map .nd.done .box{stroke:var(--red);fill:#fff5f5}
+    .map .nd.done .cap{fill:var(--ink)}
+    .map .nd.live .box{stroke:var(--red);stroke-width:2.2;fill:#fff;
+      animation:zap 1.05s ease-in-out infinite}
+    .map .nd.live .cap{fill:var(--red);font-weight:700}
+    .map .nd.live .bolt{opacity:1;animation:flash .55s steps(1) infinite}
+    @keyframes zap{0%,100%{filter:drop-shadow(0 0 0 rgba(214,0,0,0))}50%{filter:drop-shadow(0 0 8px rgba(214,0,0,.75))}}
+    @keyframes flash{0%,49%{opacity:1}50%,100%{opacity:.15}}
+    .map-note{font:10.5px var(--mono);color:var(--muted);line-height:1.6;margin:0;
+      padding:10px 12px;border-top:1px solid var(--line);min-height:56px}
+    .map-note b{display:block;color:var(--ink);font-weight:700;margin-bottom:2px}
+
+    /* ---------- transcript ---------- */
+    .term{background:#fff;border:1px solid var(--line)}
+    .term-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;
+      padding:11px 18px;border-bottom:1px solid var(--line);background:#fbfaf9}
+    .term-bar h2{margin:0;font:600 11px var(--mono);letter-spacing:.09em;color:var(--muted);text-transform:uppercase}
+    .term-bar span{font:11px var(--mono);color:var(--muted)}
+    .term-body{padding:18px;font:13px/1.7 var(--mono);min-height:96px}
+
+    .rule{display:flex;align-items:center;gap:12px;margin:20px 0 10px;color:var(--muted);
+      font:10.5px var(--mono);letter-spacing:.11em;text-transform:uppercase}
+    .rule:first-child{margin-top:0}
+    .rule:after{content:'';flex:1;height:1px;background:var(--line)}
+
+    .line{display:grid;grid-template-columns:18px 1fr;gap:11px;padding:2px 0;align-items:start}
+    .bullet{color:var(--red);text-align:center;line-height:1.55}
+    .line.pending .bullet{animation:pulse 1.1s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.32}}
+    .head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+    .lbl{font-weight:500;color:var(--ink)}
+    .line.pending .lbl{color:var(--muted);font-weight:400}
+    .caret{display:inline-block;width:7px;background:var(--red);animation:blink .7s steps(1) infinite;margin-left:1px}
+    @keyframes blink{50%{opacity:0}}
+    .detail{color:var(--muted);word-break:break-word}
+    .line.pending .detail{color:#a29b95}
+    .pill{margin-left:auto;font:500 10px var(--mono);letter-spacing:.07em;padding:2px 8px;border:1px solid var(--line);color:var(--muted)}
+    .pill.ok{background:var(--green-soft);border-color:#bfe0d6;color:var(--green)}
+    .pill.warn{background:var(--amber-soft);border-color:#f0dcb6;color:var(--amber)}
+    .pill.accent{background:#fdeaea;border-color:#f7c9c9;color:var(--red-deep)}
+    .err{color:var(--red-deep)}
+
+    .ans{display:grid;grid-template-columns:18px 1fr;gap:11px;padding:2px 0}
+    .answer{font:15px/1.72 var(--sans);white-space:pre-wrap;word-break:break-word}
+    .answer .cite{color:var(--red);font:600 12.5px var(--mono);background:#fdeaea;padding:2px 5px;border-radius:2px}
+
+    /* ---------- evidence ---------- */
+    details.ev{border:1px solid var(--line);background:#fbfaf9;margin-top:18px}
+    details.ev>summary{cursor:pointer;list-style:none;padding:11px 14px;display:flex;align-items:center;gap:9px;
+      font:11.5px var(--mono);color:var(--muted)}
+    details.ev>summary::-webkit-details-marker{display:none}
+    details.ev>summary:before{content:'+';color:var(--red);font-weight:700;width:9px;flex:none}
+    details.ev[open]>summary:before{content:'\2212'}
+    details.ev>summary:hover{background:var(--soft)}
+    details.ev[open]>summary{border-bottom:1px solid var(--line)}
+    .evbody{padding:14px}
+
+    .kv{display:grid;grid-template-columns:150px 1fr;gap:5px 14px;font-size:12px;margin:0 0 14px}
+    .kv dt{font:10.5px var(--mono);letter-spacing:.06em;color:var(--muted);text-transform:uppercase;padding-top:2px}
+    .kv dd{margin:0;font-family:var(--mono);font-size:12px;color:#3a3735;word-break:break-word}
+
+        .round{border:1px solid var(--line);background:#fff;margin-bottom:9px}
+        .round .evbody{display:none}
+        .round.open .evbody{display:block;border-top:1px solid var(--line)}
+    .round-head{display:flex;align-items:center;gap:9px;padding:10px 12px;background:#fbfaf9;cursor:pointer;flex-wrap:wrap}
+    .round-head:hover{background:var(--soft)}
+    .round-num{font:700 11px var(--mono);background:var(--ink);color:#fff;padding:3px 8px}
+    .round-queries{font:11.5px var(--mono);color:#3a3735;flex:1;min-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .chip{font:10.5px var(--mono);color:var(--muted);border:1px solid var(--line);background:#fff;padding:3px 7px;white-space:nowrap}
+    .q-list{list-style:none;padding:0;margin:0 0 12px;display:grid;gap:5px}
+    .q-list li{font:12px var(--mono);color:#3a3735;background:var(--paper);padding:6px 9px;border-left:2px solid var(--red)}
+    .note{font:11.5px var(--mono);color:var(--muted);margin:0 0 12px;line-height:1.6}
+
+    .tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    table{width:100%;min-width:660px;border-collapse:collapse;font-size:12px;table-layout:fixed}
+    th{font:10px var(--mono);letter-spacing:.07em;color:var(--muted);text-align:left;text-transform:uppercase;
+      padding:7px 8px;border-bottom:1px solid var(--line);background:#fbfaf9}
+    td{padding:8px;border-bottom:1px solid var(--soft);vertical-align:top;word-break:break-word;overflow-wrap:anywhere}
+    tr:last-child td{border-bottom:0}
+    th:nth-child(1),td:nth-child(1){width:6%}
+    th:nth-child(2),td:nth-child(2){width:13%}
+    th:nth-child(3),td:nth-child(3){width:8%}
+    th:nth-child(4),td:nth-child(4){width:15%}
+    th:nth-child(5),td:nth-child(5){width:15%}
+    th:nth-child(6),td:nth-child(6){width:11%}
+    th:nth-child(7),td:nth-child(7){width:32%}
+    td.spec{font:600 11.5px var(--mono)}
+    td.title{color:#3a3735;line-height:1.5}
+    td.ranks{font:10.5px var(--mono);color:var(--muted);line-height:1.5}
+    td.text{color:#4a4542;line-height:1.55}
+    td.text .snippet{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s ease}
+    td.text .snippet>span{overflow:hidden;min-height:0;display:block}
+    tr.open td.text .snippet{grid-template-rows:1fr;margin-top:8px}
+    tr.open td.text .snippet>span{white-space:pre-wrap;font-size:11.5px;color:var(--muted);
+      background:var(--paper);padding:10px;word-break:break-word;overflow-wrap:anywhere;
+      border-left:2px solid var(--red)}
+    td.text .more{font:10px var(--mono);color:var(--red);cursor:pointer;display:inline-block;margin-top:5px}
+
+    .idle{color:#a29b95}
+    @media(max-width:760px){
+      .shell{padding:16px 16px 40px}
+      .ask{flex-direction:column}
+      .ask button.action{height:46px}
+      .kv{grid-template-columns:1fr;gap:2px 0}
+      .kv dd{margin-bottom:8px}
+      th,td{padding:6px 5px;font-size:11px}
+      th:nth-child(4),td:nth-child(4){width:13%}
+      th:nth-child(5),td:nth-child(5){width:13%}
+      th:nth-child(7),td:nth-child(7){width:36%}
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand"><i class="roundel"></i><span class="vname"><b>V</b></span> <span class="tagline">Telecom Assistant</span></div>
+      <div class="status"><i class="dot" id="health-dot"></i><span id="health-text">connecting</span></div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <h1>Ask. Watch it think. Read the evidence.</h1>
+      </section>
+
+      <div class="examples">
+        <span class="exlab">Example questions <span class="exhint">&middot; click to load, or select and copy</span></span>
+        <div class="exlist">
+          <div class="ex" tabindex="0" data-q="During PDU Session Establishment, what information does the SMF send to the UPF in the N4 Session Establishment procedure?">During PDU Session Establishment, what information does the SMF send to the UPF in the N4 Session Establishment procedure?</div>
+          <div class="ex" tabindex="0" data-q="During 5G-AKA, how is K_AUSF derived and which entities participate in deriving the authentication keys?">During 5G-AKA, how is K_AUSF derived and which entities participate in deriving the authentication keys?</div>
+          <div class="ex" tabindex="0" data-q="What is the difference between Nnwdaf_AnalyticsSubscription_Subscribe and Nnwdaf_AnalyticsInfo_Request, and when would an Analytics Consumer use each one?">What is the difference between Nnwdaf_AnalyticsSubscription_Subscribe and Nnwdaf_AnalyticsInfo_Request, and when would an Analytics Consumer use each one?</div>
+        </div>
+      </div>
+
+      <div class="ask">
+        <input id="question" value="During PDU Session Establishment, what information does the SMF send to the UPF in the N4 Session Establishment procedure?" spellcheck="false" />
+        <button class="action" id="ask">Ask agent</button>
+      </div>
+
+      <div class="opts">
+        <label class="optslab" for="options">Answer options <span class="hint">optional &middot; one per line</span></label>
+        <textarea id="options" rows="3" spellcheck="false"></textarea>
+      </div>
+
+      <div class="grid">
+        <aside class="map">
+          <div class="map-bar">
+            <h2>Graph architecture</h2>
+            <span id="map-count">0 / 6 nodes</span>
+          </div>
+          <svg viewBox="0 0 340 556" role="img" aria-label="LangGraph node diagram: the router decides whether to retrieve, hybrid retrieval and the Mistral critic loop until the context is sufficient, then the generator answers.">
+            <defs>
+              <marker id="ah" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0 0 L8 4 L0 8 z" fill="#c9c4bf"></path>
+              </marker>
+              <marker id="ah-on" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0 0 L8 4 L0 8 z" fill="#d60000"></path>
+              </marker>
+            </defs>
+
+            <path class="edge" id="e-start-route" d="M152 51 V69" marker-end="url(#ah)"></path>
+            <path class="edge" id="e-route-retrieve" d="M152 115 V141" marker-end="url(#ah)"></path>
+            <path class="edge" id="e-route-generate" d="M236 92 C308 92 308 450 256 450 L236 450" marker-end="url(#ah)"></path>
+            <path class="edge" id="e-retrieve-evaluate_retrieval" d="M152 187 V213" marker-end="url(#ah)"></path>
+            <path class="edge" id="e-evaluate_retrieval-prepare_retry" d="M152 259 V285" marker-end="url(#ah)"></path>
+            <path class="edge" id="e-evaluate_retrieval-generate" d="M236 236 C272 236 272 478 268 478 L236 478" marker-end="url(#ah)"></path>
+            <path class="edge" id="e-prepare_retry-retrieve_retry" d="M152 331 V357" marker-end="url(#ah)"></path>
+            <path class="edge" id="e-retrieve_retry-evaluate_retrieval" d="M68 380 C26 380 26 236 54 236 L68 236" marker-end="url(#ah)"></path>
+            <path class="edge" id="e-generate-end" d="M152 487 V501" marker-end="url(#ah)"></path>
+
+            <text class="elabel" id="l-route-retrieve" x="174" y="130">Rag</text>
+            <text class="elabel" id="l-route-generate" x="288" y="106">No rag</text>
+            <text class="elabel" id="l-evaluate_retrieval-prepare_retry" x="180" y="275">Retry</text>
+            <text class="elabel" id="l-evaluate_retrieval-generate" x="280" y="258">Ok</text>
+
+            <g class="nd" id="n-start" data-id="start" tabindex="0">
+              <rect class="box" x="68" y="5" width="168" height="46" rx="3"></rect>
+              <text class="cap" x="152" y="26">Start</text>
+              <text class="kind" x="152" y="40">QUESTION IN</text>
+            </g>
+            <g class="nd" id="n-route" data-id="route" tabindex="0">
+              <rect class="box" x="68" y="69" width="168" height="46" rx="3"></rect>
+              <text class="bolt" x="50" y="18" transform="translate(0,79)">&#9889;</text>
+              <text class="cap" x="152" y="90">Router</text>
+              <text class="kind" x="152" y="104">QWEN YES / NO</text>
+            </g>
+            <g class="nd" id="n-retrieve" data-id="retrieve" tabindex="0">
+              <rect class="box" x="68" y="141" width="168" height="46" rx="3"></rect>
+              <text class="bolt" x="50" y="18" transform="translate(0,151)">&#9889;</text>
+              <text class="cap" x="152" y="162">Hybrid retrieval</text>
+              <text class="kind" x="152" y="176">DENSE + BM25 + RRF</text>
+            </g>
+            <g class="nd" id="n-evaluate_retrieval" data-id="evaluate_retrieval" tabindex="0">
+              <rect class="box" x="68" y="213" width="168" height="46" rx="3"></rect>
+              <text class="bolt" x="50" y="18" transform="translate(0,223)">&#9889;</text>
+              <text class="cap" x="152" y="234">Mistral critic</text>
+              <text class="kind" x="152" y="248">SUFFICIENCY 0-100%</text>
+            </g>
+            <g class="nd" id="n-prepare_retry" data-id="prepare_retry" tabindex="0">
+              <rect class="box" x="68" y="285" width="168" height="46" rx="3"></rect>
+              <text class="bolt" x="50" y="18" transform="translate(0,295)">&#9889;</text>
+              <text class="cap" x="152" y="306">Corrective retrieval</text>
+              <text class="kind" x="152" y="320">QUERY EXPANSION</text>
+            </g>
+            <g class="nd" id="n-retrieve_retry" data-id="retrieve_retry" tabindex="0">
+              <rect class="box" x="68" y="357" width="168" height="46" rx="3"></rect>
+              <text class="bolt" x="50" y="18" transform="translate(0,367)">&#9889;</text>
+              <text class="cap" x="152" y="378">Multi-query RRF</text>
+              <text class="kind" x="152" y="392">MERGE + DEDUPE</text>
+            </g>
+            <g class="nd" id="n-generate" data-id="generate" tabindex="0">
+              <rect class="box" x="68" y="441" width="168" height="46" rx="3"></rect>
+              <text class="bolt" x="50" y="18" transform="translate(0,451)">&#9889;</text>
+              <text class="cap" x="152" y="462">Generation</text>
+              <text class="kind" x="152" y="476">ANSWER + CITATION</text>
+            </g>
+            <g class="nd" id="n-end" data-id="end" tabindex="0">
+              <rect class="box" x="68" y="501" width="168" height="46" rx="3"></rect>
+              <text class="cap" x="152" y="522">End</text>
+              <text class="kind" x="152" y="536">EVIDENCE OUT</text>
+            </g>
+          </svg>
+          <p class="map-note" id="map-note">Hover a node to see what it does. The red one is running right now.</p>
+        </aside>
+
+        <section class="term">
+          <div class="term-bar">
+            <h2>Session</h2>
+            <span id="term-meta">idle</span>
+          </div>
+          <div class="term-body" id="term">
+            <div class="line pending" id="idle-line">
+              <span class="bullet">&bull;</span>
+              <div class="body"><div class="head"><span class="lbl idle">waiting for a question</span></div></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+    const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const FRAMES = ['\u280B', '\u2819', '\u2839', '\u2838', '\u283C', '\u2834', '\u2826', '\u2827', '\u2807', '\u280F'];
+    const sleep = (ms) => new Promise((r) => setTimeout(r, reduced ? 0 : ms));
+
+    // ---------- health ----------
+    async function pollHealth() {
+      const dot = $('#health-dot'), text = $('#health-text');
+      try {
+        const d = await (await fetch('/api/health')).json();
+        if (d.error) { dot.className = 'dot down'; text.textContent = ''; return; }
+        dot.className = d.ready ? 'dot up' : 'dot down';
+        text.textContent = d.ready ? 'agent online' : 'not ready';
+      } catch (e) {
+        dot.className = 'dot down'; text.textContent = '';
+      }
+    }
+    pollHealth();
+    setInterval(pollHealth, 10000);
+
+    // ---------- graph map ----------
+    const NODE_INFO = {
+      start: ['Start', 'The question enters the graph with an empty context and no retrieval.'],
+      route: ['Router', 'The fine-tuned Qwen model answers YES or NO. YES pulls 3GPP clauses; NO answers from model knowledge.'],
+      retrieve: ['Hybrid retrieval', 'Dense vectors and BM25 each rank the 15,773 chunks, then RRF merges both lists and keeps the top 5.'],
+      evaluate_retrieval: ['Mistral critic', 'Scores whether the context can actually answer the question. If not, it proposes corrective queries.'],
+      prepare_retry: ['Corrective retrieval', "Stores the critic's first query as the new retrieval query and bumps the retry counter."],
+      retrieve_retry: ['Multi-query RRF', 'Re-runs hybrid search for every corrective query plus the original, then merges and dedupes again.'],
+      generate: ['Generation', 'Qwen answers from the retrieved context only. Any citation must match a chunk that was actually retrieved.'],
+      end: ['End', 'The answer, the retrieval rounds and the citation evidence are returned to the transcript.'],
+    };
+    const AGENT_NODES = ['route', 'retrieve', 'evaluate_retrieval', 'prepare_retry', 'retrieve_retry', 'generate'];
+    const ALL_NODES = Object.keys(NODE_INFO);
+    const ALL_EDGES = ['start-route', 'route-retrieve', 'route-generate', 'retrieve-evaluate_retrieval',
+      'evaluate_retrieval-prepare_retry', 'evaluate_retrieval-generate', 'prepare_retry-retrieve_retry',
+      'retrieve_retry-evaluate_retrieval', 'generate-end'];
+    const mapNote = $('#map-note');
+    const mapCount = $('#map-count');
+    let mapLive = null;
+    let mapPinned = null;
+    let mapDone = new Set();
+
+    function mapNode(id) { return document.getElementById('n-' + id); }
+    function mapEdge(from, to) { return document.getElementById('e-' + from + '-' + to); }
+
+    function mapSay(id) {
+      const info = NODE_INFO[id];
+      if (!info) return;
+      const b = document.createElement('b');
+      b.textContent = info[0];
+      const s = document.createElement('span');
+      s.textContent = info[1];
+      mapNote.replaceChildren(b, s);
+    }
+
+    function mapReset() {
+      // Every node, not just the six agent ones, otherwise End stays lit into the next run.
+      ALL_NODES.forEach((id) => { const n = mapNode(id); if (n) n.classList.remove('live', 'done'); });
+      ALL_EDGES.forEach((k) => {
+        const e = document.getElementById('e-' + k);
+        if (e) { e.classList.remove('on', 'live'); e.setAttribute('marker-end', 'url(#ah)'); }
+      });
+      ['route-retrieve', 'route-generate', 'evaluate_retrieval-prepare_retry', 'evaluate_retrieval-generate']
+        .forEach((k) => { const l = document.getElementById('l-' + k); if (l) l.classList.remove('on'); });
+      mapLive = null;
+      mapDone = new Set();
+      mapCount.textContent = '0 / 6 nodes';
+      mapNote.replaceChildren(Object.assign(document.createElement('span'), {
+        textContent: 'Hover a node to see what it does. The red one is running right now.',
+      }));
+    }
+
+    function mapLight(id, from) {
+      if (mapLive && mapLive !== id && mapNode(mapLive)) mapNode(mapLive).classList.remove('live');
+      mapLive = id;
+      if (!id) return;
+      const n = mapNode(id);
+      if (n) n.classList.add('live');
+      if (from) {
+        const e = mapEdge(from, id);
+        if (e) { e.classList.remove('live'); e.classList.add('on'); e.setAttribute('marker-end', 'url(#ah-on)'); }
+        const l = document.getElementById('l-' + from + '-' + id);
+        if (l) l.classList.add('on');
+      }
+      mapSay(id);
+    }
+
+    function mapVisit(id) {
+      const n = mapNode(id);
+      if (!n) return;
+      n.classList.remove('live');
+      n.classList.add('done');
+      if (mapLive === id) mapLive = null;
+      if (AGENT_NODES.indexOf(id) >= 0) {
+        mapDone.add(id);
+        mapCount.textContent = mapDone.size + ' / 6 nodes';
+      }
+    }
+
+    function mapFinish(id, next) {
+      mapVisit(id);
+      if (next) {
+        const e = mapEdge(id, next);
+        if (e) { e.classList.add('live'); e.setAttribute('marker-end', 'url(#ah-on)'); }
+      }
+    }
+
+    Array.from(document.querySelectorAll('.map .nd')).forEach((g) => {
+      const id = g.dataset.id;
+      g.addEventListener('mouseenter', () => mapSay(id));
+      g.addEventListener('focus', () => mapSay(id));
+      g.addEventListener('click', () => {
+        mapPinned = mapPinned === id ? null : id;
+        Array.from(document.querySelectorAll('.map .nd')).forEach((o) => o.classList.remove('pinned'));
+        if (mapPinned) { g.classList.add('pinned'); mapSay(mapPinned); }
+      });
+      g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); g.click(); } });
+    });
+    mapNote.addEventListener('click', () => {
+      mapPinned = null;
+      Array.from(document.querySelectorAll('.map .nd')).forEach((o) => o.classList.remove('pinned'));
+    });
+
+    // ---------- transcript ----------
+    const term = $('#term');
+    let running = false;
+    let spinner = null;
+    let current = null;
+
+    // What the graph will do next, so a line can spin before its node finishes.
+    const NEXT = {
+      route: (d) => d.use_rag ? ['retrieve', 'retrieving 3GPP context\u2026'] : ['generate', 'writing the answer\u2026'],
+      retrieve: () => ['evaluate_retrieval', 'checking whether the context is enough\u2026'],
+      evaluate_retrieval: (d) => d.retry_decision === 'prepare_retry'
+        ? ['prepare_retry', 'planning a corrective retrieval\u2026']
+        : ['generate', 'writing the answer\u2026'],
+      prepare_retry: () => ['retrieve_retry', 'retrieving again with the critic\u2019s queries\u2026'],
+      retrieve_retry: () => ['evaluate_retrieval', 'checking whether the context is enough\u2026'],
+      generate: () => null,
+    };
+
+    function section(label) {
+      const d = document.createElement('div');
+      d.className = 'rule';
+      d.append(Object.assign(document.createElement('span'), { textContent: label }));
+      term.append(d);
+    }
+
+    function newLine() {
+      const line = document.createElement('div');
+      line.className = 'line pending';
+      const bullet = document.createElement('span');
+      bullet.className = 'bullet';
+      bullet.textContent = '\u280B';
+      const body = document.createElement('div');
+      body.className = 'body';
+      const head = document.createElement('div');
+      head.className = 'head';
+      const lbl = document.createElement('span');
+      lbl.className = 'lbl';
+      const caret = document.createElement('i');
+      caret.className = 'caret';
+      caret.hidden = true;
+      head.append(lbl, caret);
+      const detail = document.createElement('div');
+      detail.className = 'detail';
+      body.append(head, detail);
+      line.append(bullet, body);
+      term.append(line);
+      return { line, bullet, head, lbl, caret, detail, pill: null };
+    }
+
+    function setPending(id, from, text) {
+      current = newLine();
+      current.lbl.textContent = text;
+      current.node = id;
+      current.from = from;
+      mapLight(id, from);
+      if (reduced) return;
+      let f = 0;
+      spinner = setInterval(() => { current.bullet.textContent = FRAMES[f++ % FRAMES.length]; }, 80);
+    }
+
+    function typeOut(node, text) {
+      const caret = document.createElement('i');
+      caret.className = 'caret';
+      return new Promise((resolve) => {
+        if (reduced || !text) { node.textContent = text; return resolve(); }
+        node.textContent = '';
+        caret.hidden = false;
+        node.after(caret);
+        const step = Math.max(5, Math.min(26, Math.round(600 / (text.length || 1))));
+        let i = 0;
+        const tick = setInterval(() => {
+          node.textContent += text[i++];
+          if (i >= text.length) { clearInterval(tick); caret.remove(); resolve(); }
+        }, step);
+      });
+    }
+
+    function finishLine(ev) {
+      if (spinner) { clearInterval(spinner); spinner = null; }
+      if (!current) current = newLine();
+      const node = current;
+      current = null;
+      node.caret.remove();
+
+      return (async () => {
+        node.line.classList.remove('pending');
+        node.bullet.textContent = '\u25CF';
+        await typeOut(node.lbl, ev.label);
+        if (ev.pill) {
+          const pill = document.createElement('span');
+          pill.className = 'pill ' + (ev.tone || '');
+          pill.textContent = ev.pill;
+          node.head.append(pill);
+        }
+        if (ev.detail) {
+          node.detail.textContent = ev.detail;
+          await sleep(90);
+        }
+      })();
+    }
+
+    function failPending() {
+      mapLight(null);
+      if (!current) return;
+      if (spinner) { clearInterval(spinner); spinner = null; }
+      current.line.classList.remove('pending');
+      current.bullet.textContent = '\u25CF';
+      current.caret.remove();
+      current.detail.textContent = 'did not complete';
+      current = null;
+    }
+
+    function addError(message) {
+      failPending();
+      if (spinner) { clearInterval(spinner); spinner = null; }
+      if (current) { current.line.classList.remove('pending'); current.bullet.textContent = '\u25CF'; current = null; }
+      const d = document.createElement('div');
+      d.className = 'line';
+      d.innerHTML = '<span class="bullet err">\u2715</span><div class="body"><div class="head">'
+        + '<span class="lbl err">' + esc(message) + '</span></div></div>';
+      term.append(d);
+    }
+
+    // ---------- answer ----------
+    function renderAnswer(text) {
+      return esc(text).replace(/(\[(?:TS\s*)?\d{2}\.\d{3}[,\s]+(?:Section|Clause)\s+[\d.]+\s*\])/gi,
+        '<span class="cite">$1</span>');
+    }
+
+    function addAnswer(d) {
+      section('answer');
+      const row = document.createElement('div');
+      row.className = 'ans';
+      const bullet = document.createElement('span');
+      bullet.className = 'bullet';
+      bullet.textContent = '\u25B8';
+      const text = document.createElement('div');
+      text.className = 'answer';
+      text.innerHTML = renderAnswer(d.answer);
+      row.append(bullet, text);
+      term.append(row);
+      if (d.elapsed_sec) $('#term-meta').textContent = d.elapsed_sec + 's \u00b7 ' + d.route;
+      addEvidence(d);
+    }
+
+    function addEvidence(d) {
+      const specs = new Set(d.sources.map((s) => s.spec));
+      const bits = [
+        d.route === 'RAG' ? d.retrieval_attempts + (d.retrieval_attempts === 1 ? ' round' : ' rounds') : 'no retrieval',
+        specs.size ? specs.size + (specs.size === 1 ? ' spec' : ' specs') : null,
+        d.route === 'RAG' ? 'critic ' + Math.round(d.retrieval_score * 100) + '%' : null,
+        d.retry_count ? d.retry_count + ' retr' + (d.retry_count === 1 ? 'y' : 'ies') : null,
+      ].filter(Boolean);
+
+      const det = document.createElement('details');
+      det.className = 'ev';
+      const sum = document.createElement('summary');
+      sum.textContent = 'evidence \u00b7 ' + bits.join(' \u00b7 ');
+      const body = document.createElement('div');
+      body.className = 'evbody';
+      det.append(sum, body);
+      term.append(det);
+
+      const notes = [];
+      if (!d.use_rag) {
+        notes.push('No RAG. The router classified this as a general telecom or AI concept, so no 3GPP '
+          + 'chunk was retrieved and no citation can exist. The answer is the model\u2019s own knowledge.');
+      } else if (!d.retrieval_relevant) {
+        notes.push('Retrieval was rejected. ' + (d.retry_count
+          ? 'The critic proposed corrective queries, the agent retried, and the context was still judged '
+            + 'insufficient, so generation was told not to answer from memory.'
+          : 'The critic was not satisfied, so generation was told not to answer from memory.'));
+        if (d.citations.length && d.citation_source === 'fallback') {
+          notes.push('The citation above was attached locally from the top retrieved chunk because the model '
+            + 'produced none, so treat it as a pointer, not as evidence.');
+        }
+        if ((d.quality_flags || []).includes('answered_after_rejection_without_abstaining')) {
+          notes.push('The model answered anyway rather than using the required abstention sentence, so the '
+            + 'answer above is not evidence-backed.');
+        }
+      }
+      if (d.citations.length && d.citation_source === 'fallback' && d.retrieval_relevant) {
+        notes.push('The citation was attached locally from the top retrieved chunk because the model produced '
+          + 'none, so it is a pointer to that clause rather than a claim the model verified.');
+      } else if (d.retry_count > 0) {
+        notes.push('Retry succeeded. The first round was rejected, corrective retrieval ran, and the critic '
+          + 'accepted the merged context.');
+      }
+      notes.forEach((n) => {
+        const p = document.createElement('p');
+        p.className = 'note';
+        p.textContent = n;
+        body.append(p);
+      });
+
+      // The graph state is overwritten by each critic call, so the top-level
+      // expanded_queries / missing_information are the LAST critic's values and
+      // are empty whenever the final round was accepted. The corrective queries
+      // that actually drove a retry live on the per-round critic records.
+      // Only rounds that branched to prepare_retry count: a final accepted round
+      // usually proposes queries too, but nothing ever retrieves with them.
+      const roundQueries = [];
+      const roundMissing = [];
+      (d.rounds || []).forEach((r) => {
+        if (!r.critic) return;
+        if (r.critic.missing_information) roundMissing.push(r.critic.missing_information);
+        if (r.decision !== 'prepare_retry') return;
+        (r.critic.search_queries || []).forEach((q) => {
+          if (q && roundQueries.indexOf(q) < 0) roundQueries.push(q);
+        });
+      });
+      const corrective = roundQueries.length ? roundQueries : d.expanded_queries;
+      const missing = roundMissing.length ? roundMissing[roundMissing.length - 1] : d.missing_information;
+
+      const rows = [
+        ['Router said', d.router_output],
+        ['Route reason', d.route_reason],
+        (d.options && d.options.length) ? ['Answer options', d.options] : null,
+        ['Retrieval queries', d.retrieval_queries],
+        ['Corrective queries', corrective],
+        ['Missing information', missing],
+        ['Citations', d.citations],
+      ].filter(Boolean);
+      const dl = document.createElement('dl');
+      dl.className = 'kv';
+      rows.forEach(([k, v]) => {
+        const dt = document.createElement('dt');
+        dt.textContent = k;
+        const dd = document.createElement('dd');
+        const empty = !v || (Array.isArray(v) && !v.length);
+        dd.textContent = empty ? '\u2014' : (Array.isArray(v) ? v.join('   |   ') : String(v));
+        dl.append(dt, dd);
+      });
+      body.append(dl);
+
+      d.rounds.forEach((r) => body.append(roundBox(r)));
+    }
+
+    function roundBox(r) {
+      const box = document.createElement('div');
+      box.className = 'round';
+      const head = document.createElement('div');
+      head.className = 'round-head';
+      const kind = r.kind === 'multi_query_rrf' ? 'corrective multi-query RRF' : 'hybrid dense + BM25 + RRF';
+      const verdict = r.critic
+        ? '<span class="pill ' + (r.critic.relevant ? 'ok' : 'warn') + '">'
+          + (r.critic.relevant ? 'SUFFICIENT' : 'INSUFFICIENT') + ' ' + Math.round(r.critic.score * 100) + '%</span>'
+        : '<span class="chip">CRITIC PENDING</span>';
+      head.innerHTML =
+        '<span class="round-num">ROUND ' + r.round + '</span>'
+        + '<span class="round-queries">' + esc(r.queries.join('   |   ')) + '</span>'
+        + '<span class="chip">' + esc(kind) + '</span>'
+        + '<span class="chip">' + r.chunk_count + ' CHUNKS</span>'
+        + (r.new_chunks_vs_previous != null ? '<span class="chip">' + r.new_chunks_vs_previous + ' NEW</span>' : '')
+        + verdict;
+      head.addEventListener('click', () => box.classList.toggle('open'));
+
+      const inner = document.createElement('div');
+      inner.className = 'evbody';
+      const qlist = document.createElement('ul');
+      qlist.className = 'q-list';
+      r.queries.forEach((q, i) => {
+        const li = document.createElement('li');
+        li.textContent = (i + 1) + '. ' + q;
+        qlist.append(li);
+      });
+      inner.append(qlist);
+
+      if (r.critic && !r.critic.relevant) {
+        const m = document.createElement('p');
+        m.className = 'note';
+        m.textContent = 'Critic: insufficient. Missing \u2192 ' + (r.critic.missing_information || 'not stated')
+          + (r.critic.search_queries.length
+            ? '. Proposed ' + r.critic.search_queries.length + ' corrective query/queries.'
+            : '. No corrective query proposed, so the graph generated anyway.');
+        inner.append(m);
+      }
+      inner.append(chunkTable(r.chunks));
+      box.append(head, inner);
+      return box;
+    }
+
+    function chunkTable(chunks) {
+      const wrap = document.createElement('div');
+      wrap.className = 'tblwrap';
+      const table = document.createElement('table');
+      table.innerHTML = '<thead><tr><th>#</th><th>Spec</th><th>Section</th><th>Title</th><th>Ranks</th>'
+        + '<th>Score</th><th>Content</th></tr></thead>';
+      const tbody = document.createElement('tbody');
+      chunks.forEach((c, i) => {
+        const tr = document.createElement('tr');
+        const ranks = [
+          c.dense_rank != null ? 'dense #' + c.dense_rank : null,
+          c.bm25_rank != null ? 'bm25 #' + c.bm25_rank : null,
+          c.query_hits != null ? c.query_hits + ' query hit(s)' : null,
+        ].filter(Boolean).join(' \u00b7 ');
+        tr.innerHTML =
+          '<td class="mono">' + (i + 1) + '</td>'
+          + '<td class="spec">' + esc(c.spec) + '</td>'
+          + '<td class="spec">' + esc(c.section) + '</td>'
+          + '<td class="title">' + esc(c.title || '\u2014') + '</td>'
+          + '<td class="ranks">' + (esc(ranks) || '\u2014') + '</td>'
+          + '<td class="ranks">' + (c.hybrid_score || 0).toFixed(5)
+            + (c.distance != null ? '<br>d ' + c.distance.toFixed(4) : '') + '</td>'
+          + '<td class="text">' + esc((c.text || '').slice(0, 180)) + '\u2026'
+            + '<div class="snippet"><span>' + esc(c.text || '') + '</span></div>'
+            + '<span class="more">show full chunk</span></td>';
+        tr.querySelector('.more').addEventListener('click', (e) => {
+          e.stopPropagation();
+          tr.classList.toggle('open');
+          tr.querySelector('.more').textContent = tr.classList.contains('open') ? 'show less' : 'show full chunk';
+        });
+        tbody.append(tr);
+      });
+      table.append(tbody);
+      wrap.append(table);
+      return wrap;
+    }
+
+    // ---------- ask ----------
+    $('#ask').addEventListener('click', ask);
+    $('#question').addEventListener('keydown', (e) => { if (e.key === 'Enter') ask(); });
+    // Example questions: click (or Enter/Space) loads one into the question box.
+    // The text stays selectable so it can also be copied by hand.
+    document.querySelectorAll('.ex').forEach((el) => {
+      const load = () => {
+        const q = $('#question');
+        q.value = el.dataset.q;
+        q.focus();
+        q.setSelectionRange(q.value.length, q.value.length);
+      };
+      el.addEventListener('click', load);
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); load(); }
+      });
+    });
+    // Plain Enter has to keep inserting a new option line, so submit with Ctrl/Cmd+Enter.
+    $('#options').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); ask(); }
+    });
+
+    function reset() {
+      term.replaceChildren();
+      current = null;
+      spinner = null;
+      $('#term-meta').textContent = 'running';
+    }
+
+    function readOptions() {
+      const el = document.getElementById('options');
+      const raw = (el && el.value) || '';
+      return raw.split('\n').map((s) => s.trim()).filter(Boolean);
+    }
+
+    async function ask() {
+      const text = $('#question').value.trim();
+      if (!text || running) return;
+      const options = readOptions();
+      running = true;
+      const button = $('#ask');
+      button.disabled = true; button.textContent = 'Running\u2026';
+      reset();
+      mapReset();
+      section('run ' + new Date().toTimeString().slice(0, 8));
+      mapVisit('start');
+      setPending('route', 'start', 'checking whether RAG is needed\u2026');
+
+      try {
+        const res = await fetch('/api/ask/stream', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(options.length ? { question: text, options } : { question: text }),
+        });
+        if (!res.ok) {
+          let msg = 'HTTP ' + res.status;
+          try { msg = (await res.json()).detail || msg; } catch (e) {}
+          addError(msg);
+        } else {
+          await readStream(res, (ev) => handle(ev));
+        }
+      } catch (e) {
+        addError(String(e.message || e));
+      } finally {
+        if (spinner) { clearInterval(spinner); spinner = null; }
+        if (current) { current.line.classList.remove('pending'); current.bullet.textContent = '\u25CF'; current = null; }
+        running = false;
+        button.disabled = false; button.textContent = 'Ask agent';
+      }
+    }
+
+    function handle(ev) {
+      if (ev.type === 'error') { addError(ev.message); return Promise.resolve(); }
+      if (ev.type === 'result') {
+        mapVisit('end');
+        if (current) { clearInterval(spinner); spinner = null; current.line.classList.remove('pending'); current.bullet.textContent = '\u25CF'; current = null; }
+        mapLight(null);
+        addAnswer(ev.result);
+        return Promise.resolve();
+      }
+      if (ev.type !== 'node') return Promise.resolve();
+      return finishLine(ev).then(() => {
+        const next = (NEXT[ev.node] || (() => null))(ev);
+        mapFinish(ev.node, next ? next[0] : null);
+        if (next) setPending(next[0], ev.node, next[1]);
+        else mapLight('end', ev.node);
+      });
+    }
+
+    async function readStream(res, onEvent) {
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buf = '';
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buf += decoder.decode(value, { stream: true });
+        let cut;
+        while ((cut = buf.indexOf('\n\n')) >= 0) {
+          const frame = buf.slice(0, cut);
+          buf = buf.slice(cut + 2);
+          for (const raw of frame.split('\n')) {
+            if (!raw.startsWith('data: ')) continue;
+            let ev;
+            try { ev = JSON.parse(raw.slice(6)); } catch (e) { continue; }
+            await onEvent(ev);
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

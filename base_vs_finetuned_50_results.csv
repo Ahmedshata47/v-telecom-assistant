@@ -1,0 +1,99 @@
+﻿question_id,question,ground_truth,correct_option,base_answer,base_option,base_correct,base_latency_sec,finetuned_answer,finetuned_option,finetuned_correct,finetuned_latency_sec
+question 6901,When can the UE trigger reporting of its RLM and BFD relaxation status? [3GPP Release 17],option 1: When the RLM and BFD relaxation status changes,1,1. When the RLM and BFD relaxation status changes,1.0,True,1.5258036000013817,option 1: When the RLM and BFD relaxation status changes,1,True,3.0286820999972406
+question 144,Why is analog over-the-air computing considered to improve privacy protection in network management?,"option 5: It imposes random perturbations to the uploaded parameters, making it impossible to recover original information",5,5.,5.0,True,1.021515400003409,"option 5: It imposes random perturbations to the uploaded parameters, making it impossible to recover original information",5,True,4.846044099998835
+question 501,What is the term for a network where every switch is connected to all other switches in the network?,option 2: Full-mesh network,2,2. Full-mesh network,2.0,True,1.0554818000018713,option 2: Full-mesh network,2,True,1.8834790000000794
+question 3535,In which type of terrain cover are AG (air to ground) propagation measurements most likely to be affected by man-made structures?,option 1: Open space,1,1. 2. Hilly/Mountainous,1.0,True,1.3567154000011215,option 2: Hilly/Mountainous,2,False,2.2942789000007906
+question 6002,What are the three classes into which existing scheduling disciplines are categorized?,"option 2: Throughput fairness scheduling, throughput maximization scheduling, and utilization optimization scheduling",2,"1. Throughput fairness scheduling, throughput maximization scheduling, and capacity optimization scheduling",1.0,False,2.132397299999866,"option 2: Throughput fairness scheduling, throughput maximization scheduling, and utilization optimization scheduling",2,True,3.8588033999985782
+question 6151,What is the purpose of SCC AS Restoration in IMS? [3GPP Release 14],option 4: All of the above,4,4. All of the above,4.0,True,1.3078850999991118,option 4: All of the above,4,True,2.2714803000017127
+question 951,What is the distribution of the received amplitude in binary antipodal signaling?,option 4: Uniform distribution,4,4.,4.0,True,0.641623300001811,option 4: Uniform distribution,4,True,1.6536512999991828
+question 7630,Which UWC (Underwater Wireless Communication) system can distress marine mammals such as dolphins and whales?,option 1: Acoustic,1,"1. 1
+2. 2
+3. 3",1.0,True,1.9609498999998323,option 1: Acoustic,1,True,1.7064682000018365
+question 1920,"In an OFDM (orthogonal frequency-division multiplexing) system, what is the purpose of the CP (cyclic prefix)?",option 3: To prevent inter-symbol interference,3,3. To prevent inter-symbol interference,3.0,True,1.2022840000026918,option 3: To prevent inter-symbol interference,3,True,2.1725542999993195
+question 6299,What are the general methods for model optimization in the edge?,option 4: All of the above,4,4. All of the above,4.0,True,1.0308222000021487,option 4: All of the above,4,True,2.0401676000001316
+question 9769,What is the meaning of the term 'ITUT'? [3GPP Release 18],option 2: International Telecommunications Union - Telecommunications,2,"The correct answer is:
+
+2. International Telecommunications Union - Telecommunications
+
+Explanation: The term ""ITUT"" in the context of 3GPP (",,False,3.1571607000005315,option 2: International Telecommunications Union - Telecommunications,2,True,2.4785076000007393
+question 3152,What is a critical component associated with error rates in quantum operations?,option 4: Spectator errors,4,"The correct answer is 4. Spectator errors.
+
+Spectator errors refer to errors that occur when an external observer measures or interacts with the system being studied",,False,3.2377673000009963,option 4: Spectator errors,4,True,1.9249913999992714
+question 8763,What is the name of the function that defines the boundary of the rate distortion region?,option 4: Rate distortion function,4,4. Rate distortion function,4.0,True,0.949603200002457,option 4: Rate distortion function,4,True,1.8583241999986058
+question 2891,What is the purpose of the prohibit timer in the network? [3GPP Release 14],option 3: To limit frequent query messages,3,"1. To trigger SR counters
+2. To perform rate adaptation
+3. To limit frequent query messages
+4. To enable CSFB
+5. To",1.0,False,3.369337299998733,option 3: To limit frequent query messages,3,True,2.172358499999973
+question 7403,What benefit do electric vehicles (EVs) bring to the grid?,option 1: They can serve as mobile energy transporters within the grid,1,"1. 1, 5",1.0,True,1.1073503000006895,option 5: They can serve as energy suppliers when they have disposable energy,5,False,3.3209984000022814
+question 405,What are the enhanced RRM requirements in DRX in connected mode? [3GPP Release 14],option 1: Reduced cell identification delay and measurement period.,1,"Option 3: Reduced cell identification delay, measurement period, and evaluation time.
+
+Explanation: In 3GPP Release 14 (NR), Enhanced Radio",3.0,False,3.2504650999981095,"option 2: Reduced cell detection delay, measurement period, and evaluation time.",2,False,3.6962236000035773
+question 3667,The Mahalanobis distance is used in anomaly detection by:,option 4: Computing the log-likelihood of a test point under a multivariate Gaussian model,4,4. Computing the log-likelihood of a test point under a multivariate Gaussian model,4.0,True,2.374305800000002,option 4: Computing the log-likelihood of a test point under a multivariate Gaussian model,4,True,4.751929899997776
+question 9170,What are the features of smart grid related to green wireless communications?,"option 3: Demand side management, decentralized power generation, and network performance optimization",3,"Option 2: Decentralized power generation, price signaling, and network performance optimization
+
+This is the correct feature of smart grids that relates to green wireless communications",2.0,False,3.6914581000019098,"option 2: Decentralized power generation, price signaling, and network performance optimization",2,False,3.904819100000168
+question 7266,What is the purpose of the Duration field in data frames? [IEEE 802.11],option 2: To set the time for which the medium is restricted,2,"The correct answer is:
+
+2. To set the time for which the medium is restricted
+
+Explanation: The Duration field in IEEE 802.11",,False,3.2857879000002868,option 2: To set the time for which the medium is restricted,2,True,2.8733207999976003
+question 2806,What mechanism does Bluetooth use to avoid interference with WLAN? [Bluetooth - Overview],option 2: AFH,2,4. TPC,4.0,False,0.7994006000008085,option 2: AFH,2,True,1.5277066999988165
+question 7507,What is the purpose of the Sardinas and Patterson test for unique decodability?,option 2: To test if a code is uniquely decodable.,2,1. 2.,1.0,False,0.8995314999992843,option 2: To test if a code is uniquely decodable.,2,True,2.8944580999996106
+question 491,Which material type should be used for the dielectric substrate in metasurfaces?,option 2: Low-loss dielectric for wider bandwidth,2,Option 2: Low-loss dielectric for wider bandwidth is the correct choice for the dielectric substrate in metasurfaces.,2.0,True,2.6743091999996977,option 2: Low-loss dielectric for wider bandwidth,2,True,2.388680899999599
+question 6291,What is the role of EVs (Electric vehicles) in the mobility grid of IoME (Internet of Mobile Energy)?,option 2: To transfer energy from one location to another,2,1. 2. To transfer energy from one location to another,1.0,False,1.5530130000006466,option 1: To serve as energy producers in the grid,1,False,2.643452000000252
+question 2603,What are the two types of conventional attacks on localization systems?,option 2: Jamming and spoofing,2,2.,2.0,True,0.6778448000004573,option 1: Spoofing and sniping,1,False,2.2385544999997364
+question 3270,Which flow directions should have configurable absolute cyclic time boundaries for infrastructure dedicated to high performance Ethernet applications? [3GPP Release 19],option 3: DL and UL directions,3,"Option 3: DL and UL directions
+
+Answer: 3",3.0,True,1.5532813999998325,option 3: DL and UL directions,3,True,1.884283699997468
+question 9192,Which category of edge computing systems combines the advantages of both cloud and edge to provide global optimal results and minimum response time?,option 3: Hybrid cloud-edge analytics,3,3.,3.0,True,0.6410809999979392,option 3: Hybrid cloud-edge analytics,3,True,1.937609299999167
+question 5682,What is one of the challenges of using non-orthogonal multiple access (NOMA) techniques?,option 4: Mutual interference,4,1. 4. Mutal interference,1.0,False,1.1262324999988778,option 4: Mutual interference,4,True,1.5500599000006332
+question 2437,What is the typical number of rounds in a Feistel cipher?,option 4: 16 rounds,4,1. 4 rounds,1.0,False,0.8959032999991905,option 2: 8 rounds,2,False,1.7141239999982645
+question 6108,What advantage does an attacker have in the battle of computer and network security?,option 2: They need only find a single weakness,2,5. None of the above,5.0,False,0.9664671999998973,option 2: They need only find a single weakness,2,True,2.418933200002357
+question 6629,What is the definition of data communications?,option 1: The movement of encoded information by means of communication techniques.,1,"1. 1. The movement of encoded information by means of communication techniques.
+2. 2. The transmission of voice communications over the Internet.
+3.",1.0,True,3.0845005999981367,option 1: The movement of encoded information by means of communication techniques.,1,True,3.048842500000319
+question 8735,What is the function of the Serving GPRS Support Node (SGSN)? [3GPP Release 17],option 5: To handle packet transmission to and from mobile stations.,5,"The correct answer is:
+
+2. To terminate the interface towards the PDN.
+
+Explanation: The Serving GPRS Support Node (SGSN) in 3G",,False,3.4080668999995396,option 5: To handle packet transmission to and from mobile stations.,5,True,3.359296300001006
+question 7293,What is the purpose of the source port field in a TCP communication? [TCP/IP],option 5: To identify the client,5,"1. To identify the client
+
+The source port field in a TCP communication identifies the client initiating the connection or sending the first message. It helps in distinguishing between",1.0,False,3.237329299998237,option 5: To identify the client,5,True,1.889238200001273
+question 2087,What are the pros of RIS-enhanced networks compared to relay networks?,option 1: Higher energy efficiency and simpler device,1,"The correct answer is:
+
+3. Higher energy efficiency and lower interference
+
+RIS (Reference Indoor System) enhanced networks offer several advantages over traditional relay networks in terms",,False,3.072269000000233,option 1: Higher energy efficiency and simpler device,1,True,2.247524099999282
+question 4571,What is the definition of radio link?,option 4: A logical association between single User Equipment and a single UTRAN access point. Its physical realization comprises one or more radio bearer transmissions.,4,"Option 4: A logical association between single User Equipment and a single UTRAN access point. Its physical realization comprises one or more radio bearer transmissions.
+
+Answer:",4.0,True,3.4045396000001347,option 4: A logical association between single User Equipment and a single UTRAN access point. Its physical realization comprises one or more radio bearer transmissions.,4,True,5.88550149999719
+question 4745,What is the effect of misalignment fading on the bit error rate performance in RIS-assisted communication systems?,option 4: It requires additional power to maintain the same bit error rate performance,4,1. 3.,1.0,False,0.899831800001266,option 3: It decreases the bit error rate performance,3,False,2.3727293999982066
+question 710,Which specification specifies the Support of NR MBS in non-split gNB case? [3GPP Release 17],option 3: TS 38.300,3,"The correct answer is:
+
+4. TS 38.305
+
+This specification (TS 38.305) defines the support for",,False,3.127912700001616,option 4: TS 38.305,4,False,2.5698561999997764
+question 7486,What do older cellular systems like AMPS (Advanced Mobile Phone System) use for transmitting voice?,option 4: Analog modulation of voice waveform on a carrier,4,"4. Analog modulation of voice waveform on a carrier
+
+Option 4 is correct because older cellular systems like AMPS used analog modulation techniques to transmit voice signals over",4.0,True,3.2861590000029537,option 4: Analog modulation of voice waveform on a carrier,4,True,2.557423900001595
+question 3349,What does TsteeringWLAN represent? [3GPP Release 17],option 1: The timer value during which the rules should be fulfilled for traffic steering between E-UTRAN and WLAN.,1,1. The timer value during which the rules should be fulfilled for traffic steering between E-UTRAN and WLAN.,1.0,True,2.8525812000007136,option 1: The timer value during which the rules should be fulfilled for traffic steering between E-UTRAN and WLAN.,1,True,5.2108812000005855
+question 2112,What is the definition of 'action potential'? [IEEE C95.1],option 2: A response of a nerve cell to a stimulus involving a propagating rapid depolarization of the potential across the cell membrane,2,"2. A response of a nerve cell to a stimulus involving a propagating rapid depolarization of the potential across the cell membrane.
+
+This corresponds to Option",2.0,True,3.2580660999992688,option 2: A response of a nerve cell to a stimulus involving a propagating rapid depolarization of the potential across the cell membrane,2,True,5.417242200001056
+question 3760,What is a base-station in a cellular network?,option 2: A tower that provides coverage for subscribers,2,1. 2.,1.0,False,0.8888655000009749,option 2: A tower that provides coverage for subscribers,2,True,2.3952320999997028
+question 3243,What is the relation between PW (Power) and BW (Bandwidth) in a wireless communication system?,option 3: PW decreases as BW increases,3,1. 4. PW and BW are not related,1.0,False,1.3983952999988105,option 3: PW decreases as BW increases,3,True,2.030709200000274
+question 7838,What is urban air mobility (UAM)?,option 1: The use of low-altitude unmanned aerial vehicles (UAVs) and eVTOLs for cargo and passenger transportation in urban areas.,1,1.,1.0,True,0.9613749000018288,option 1: The use of low-altitude unmanned aerial vehicles (UAVs) and eVTOLs for cargo and passenger transportation in urban areas.,1,True,6.217281699999148
+question 7259,What is the purpose of class D IP addresses? [TCP/IP],option 3: To send multicast messages,3,1. 2. To establish a connection between networks,1.0,False,1.4057549999997718,option 4: To provide uniform addressing for information transportation,4,False,2.3689320999983465
+question 4814,Which of the following goal function classes considers the weighted sum of objectives?,option 4: Arithmetic mean,4,"1. Answer: 4. Arithmetic mean
+
+The arithmetic mean is the goal function class that considers the weighted sum of objectives.",1.0,False,2.6700634000007994,option 4: Arithmetic mean,4,True,1.547803900000872
+question 1184,What is the purpose of load-balancing steering mode enhancements? [3GPP Release 17],option 3: To enable the UE and UPF to freely select split percentages for each access type,3,"1. To provide better network performance measurements
+2. To prioritize non-3GPP access over 3GPP access in load balancing
+3. To",1.0,False,3.1196897000008903,option 2: To prioritize non-3GPP access over 3GPP access in load balancing,2,False,4.081594399998721
+question 7416,What is the purpose of the 0-RTT Convert protocol in the explicit Multipath TCP (Transmission Control Protocol) deployment mode?,option 4: To establish a Multipath TCP connection between the HCPE and the HAG.,4,4.,4.0,True,0.6356135999994876,option 4: To establish a Multipath TCP connection between the HCPE and the HAG.,4,True,3.8686287000018638
+question 7165,Which type of machine learning uses both labeled and unlabeled data?,option 2: Semi-supervised learning,2,2. Semi-supervised learning,2.0,True,0.9740955000015674,option 2: Semi-supervised learning,2,True,1.893280500000401
+question 187,"For PSFCH transmission with HARQ-ACK information, how are the PRBs allocated? [3GPP Release 17]",option 3: In an ascending order of both the PRB index and the cyclic shift pair index,3,1. In an ascending order of the PRB index only,1.0,False,1.9010865000018384,option 3: In an ascending order of both the PRB index and the cyclic shift pair index,3,True,4.258546500001103
+question 3052,What is the purpose of the amendment IEEE 802.15.3d-2017?,option 5: Alternate PHY layer at frequencies between 252 and 321 GHz,5,1.,1.0,False,0.958423700001731,option 5: Alternate PHY layer at frequencies between 252 and 321 GHz,5,True,4.1910495000011
+question 7522,What is the duality between data compression and data transmission?,"option 1: Data compression removes redundancy, while data transmission adds redundancy to combat errors.",1,"1. Data compression removes redundancy, while data transmission adds redundancy to combat errors.",1.0,True,2.1854480000001786,"option 1: Data compression removes redundancy, while data transmission adds redundancy to combat errors.",1,True,3.8690380999978515

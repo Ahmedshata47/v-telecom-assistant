@@ -1,0 +1,49 @@
+# ---------------------------------------------------------------------------
+# Large / licensed data and artefacts (reproducible, not committed)
+# ---------------------------------------------------------------------------
+# 3GPP specification .docx sources (download from 3gpp.org)
+/23.288/
+/23.501/
+/23.502/
+/24.501/
+/33.501/
+/38.300/
+/38.331/
+
+# Parsed corpus (regenerate with voda.ipynb cells 0-1)
+/parsed_sections.json
+/parsed_chunks.json
+
+# Vector store (regenerate with voda.ipynb cell 2)
+/chroma_db/
+
+# TeleQnA dataset (download / see Fine-tuning notebook)
+/Fine-tuning/TeleQnA.json
+
+# Model weights, adapters, tokenizers and checkpoints
+/Tuned_model/
+/teleqna-qwen-1.5b-qlora/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.gguf
+/checkpoint-*/
+
+# Raw screen recordings kept outside the packaged assets
+/screens/
+
+# ---------------------------------------------------------------------------
+# Python / notebooks / tooling
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+.env
+.env.*
+*.log
+node_modules/
+.DS_Store
+Thumbs.db
