@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="assets/demo-main.png" alt="3GPP Signal Intelligence demo" width="100%" />
+<img src="assets/demo-main.png" alt="V Telecom Assistant demo" width="100%" />
 
-# 3GPP Signal Intelligence
+# V Telecom Assistant
 
 **A fine-tuned Qwen2.5-1.5B + agentic RAG assistant that answers telecom questions with citations pulled from real 3GPP specifications — and shows you exactly how it got there.**
 
