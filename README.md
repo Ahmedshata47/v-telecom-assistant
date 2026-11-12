@@ -23,7 +23,7 @@
 
 <div align="center">
 
-<img src="assets/demo-walkthrough.gif" alt="30-second walkthrough of the agent answering a 3GPP question" width="820" />
+<img src="assets/demo-walkthrough-hq.gif" alt="30-second walkthrough of the agent answering a 3GPP question" width="100%" />
 
 <sub>A 30-second walkthrough · the UI streams every graph node, the retrieved 3GPP chunks, the critic verdict and the final citation.</sub>
 
