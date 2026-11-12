@@ -23,11 +23,9 @@
 
 <div align="center">
 
-<a href="assets/demo-walkthrough.mp4">
-  <img src="assets/demo-walkthrough.gif" alt="30-second walkthrough of the agent answering a 3GPP question" width="820" />
-</a>
+<img src="assets/demo-walkthrough.gif" alt="30-second walkthrough of the agent answering a 3GPP question" width="820" />
 
-<sub>Click the animation for the full-resolution MP4 · the UI streams every graph node, the retrieved 3GPP chunks, the critic verdict and the final citation.</sub>
+<sub>A 30-second walkthrough · the UI streams every graph node, the retrieved 3GPP chunks, the critic verdict and the final citation.</sub>
 
 </div>
 
@@ -144,7 +142,7 @@ These are measured behaviours, each guarded by a test — not hidden:
 ```text
 3gpp_specs/
 ├── README.md                     ← you are here
-├── assets/                       ← demo GIF, screenshots, MP4
+├── assets/                       ← demo GIF + screenshots
 ├── demo/                         ← FastAPI + web UI agent showcase
 │   ├── agent_server.py           ← LangGraph port of the notebook + telemetry
 │   ├── index.html                ← the single-file UI

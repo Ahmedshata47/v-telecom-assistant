@@ -30,6 +30,9 @@
 *.gguf
 /checkpoint-*/
 
+# Raw screen recording (the GIF in assets/ is the packaged version)
+/assets/demo-walkthrough.mp4
+
 # Raw screen recordings kept outside the packaged assets
 /screens/
 
